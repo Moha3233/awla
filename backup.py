@@ -105,19 +105,20 @@ with tab2:
     st.header("Solution Preparation")
     
     method = st.radio("Preparation Method", 
-                     ["From solid", "From stock solution", "By dilution"])
+                     ["From solid", "From stock solution", "By dilution"],
+                     key="prep_method_radio")
     
     if method == "From solid":
         col1, col2 = st.columns(2)
         with col1:
-            mw = st.number_input("Molecular weight (g/mol)", min_value=0.0, value=58.44)
-            target_conc = st.number_input("Target concentration", min_value=0.0, value=1.0)
-            target_vol = st.number_input("Target volume", min_value=0.0, value=1.0)
-            conc_unit = st.selectbox("Concentration unit", ["M", "mM", "µM"])
-            vol_unit = st.selectbox("Volume unit", ["L", "mL"])
+            mw = st.number_input("Molecular weight (g/mol)", min_value=0.0, value=58.44, key="mw_input")
+            target_conc = st.number_input("Target concentration", min_value=0.0, value=1.0, key="target_conc_input")
+            target_vol = st.number_input("Target volume", min_value=0.0, value=1.0, key="target_vol_input")
+            conc_unit = st.selectbox("Concentration unit", ["M", "mM", "µM"], key="solid_conc_unit")
+            vol_unit = st.selectbox("Volume unit", ["L", "mL"], key="solid_vol_unit")
         
         with col2:
-            if st.button("Calculate amount needed"):
+            if st.button("Calculate amount needed", key="calc_solid_button"):
                 if mw and target_conc and target_vol:
                     # Convert units to M and L
                     if conc_unit == "mM":
@@ -145,15 +146,15 @@ with tab2:
     elif method == "From stock solution":
         col1, col2 = st.columns(2)
         with col1:
-            stock_conc = st.number_input("Stock concentration", min_value=0.0, value=10.0)
-            stock_unit = st.selectbox("Stock unit", conc_units)
-            target_conc = st.number_input("Target concentration", min_value=0.0, value=1.0)
-            target_unit = st.selectbox("Target unit", conc_units)
-            target_vol = st.number_input("Target volume", min_value=0.0, value=100.0)
-            vol_unit = st.selectbox("Volume unit", vol_units)
+            stock_conc = st.number_input("Stock concentration", min_value=0.0, value=10.0, key="stock_conc_input")
+            stock_unit = st.selectbox("Stock unit", conc_units, key="stock_unit_select")
+            target_conc = st.number_input("Target concentration", min_value=0.0, value=1.0, key="target_conc_input_stock")
+            target_unit = st.selectbox("Target unit", conc_units, key="target_unit_select")
+            target_vol = st.number_input("Target volume", min_value=0.0, value=100.0, key="target_vol_input_stock")
+            vol_unit = st.selectbox("Volume unit", vol_units, key="vol_unit_select_stock")
         
         with col2:
-            if st.button("Calculate volume to use"):
+            if st.button("Calculate volume to use", key="calc_stock_button"):
                 if stock_conc and target_conc and target_vol:
                     # Convert both concentrations to same unit (M)
                     stock_conc_m = stock_conc
